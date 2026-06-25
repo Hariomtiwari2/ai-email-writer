@@ -55,8 +55,7 @@ public class EmailGenratorService {
                 .bodyToMono(String.class)
                 .block();
 
-        // Extract response and return
-        return extractResponseContent(response);
+         return extractResponseContent(response);
     }
 
     private String extractResponseContent(String response) {
@@ -78,7 +77,7 @@ public class EmailGenratorService {
     private String buildPrompt(EmailRequest emailRequest) {
 
         StringBuilder prompt = new StringBuilder();
-        prompt.append("Generate a professional email reply for the following email content. please don't genrate the subject line ");
+        prompt.append("Generate a professional email reply for the following email content. please don't generate the subject line and keep reply in 50 words ");
         if (emailRequest.getTone() != null && !emailRequest.getTone().isEmpty()) {
             prompt.append("Use a ").append(emailRequest.getTone()).append(" Ttone. ");
         }

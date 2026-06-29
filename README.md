@@ -9,6 +9,7 @@ An AI-powered Chrome Extension that generates professional email replies directl
 - Chrome Extension integration
 - Tone-based reply generation
 - Secure configuration using environment variables
+- Dockerized application for consistent deployment
 
 ## Tech Stack
 
@@ -16,11 +17,11 @@ An AI-powered Chrome Extension that generates professional email replies directl
 - Spring Boot
 - Spring Web & WebFlux (WebClient)
 - Google Gemini API
+- Docker
 - JavaScript
-- HTML/CSS
+- HTML
+- CSS
 - Chrome Extension
-- AWS Lambda
-- AWS API Gateway
 
 ## API
 
@@ -37,13 +38,14 @@ An AI-powered Chrome Extension that generates professional email replies directl
 
 ```
 email-writer/
-├── Backend (Spring Boot)
-└── Chrome Extension
+├── backend/             # Spring Boot Application
+└── chrome-extension/    # Chrome Extension
 ```
 
 ## Run Locally
 
-1. Clone the repository
+1. Clone the repository.
+
 2. Set the following environment variables:
 
 ```
@@ -51,10 +53,28 @@ GEMINI_URL
 GEMINI_KEY
 ```
 
-3. Run the Spring Boot application
-4. Load the Chrome Extension in Developer Mode
-5. Start generating AI-powered email replies
+3. Run using Spring Boot:
+
+```bash
+mvn spring-boot:run
+```
+
+**OR**
+
+Run using Docker:
+
+```bash
+docker build -t email-writer .
+docker run -p 8080:8080 \
+-e GEMINI_URL=<YOUR_GEMINI_URL> \
+-e GEMINI_KEY=<YOUR_GEMINI_API_KEY> \
+email-writer
+```
+
+4. Load the Chrome Extension in **Developer Mode**.
+
+5. Start generating AI-powered email replies directly inside Gmail.
 
 ---
 
-Built using Spring Boot, Google Gemini API, AWS Lambda, and Chrome Extensions.
+Built using **Spring Boot**, **Docker**, **Google Gemini API**, and **Chrome Extensions**.

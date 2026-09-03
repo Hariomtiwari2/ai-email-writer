@@ -1,0 +1,36 @@
+name: Deploy Spring Boot Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          script: |
+            cd ~/email-writer/ai-email-writer/email-writer
+
+            git pull origin main
+
+            docker stop email-writer || true
+            docker rm email-writer || true
+
+            docker build -t email-writer .
+
+            docker run -d \
+              --name email-writer \
+              -p 8080:8080 \
+              -e GEMINI_URL="${{ secrets.GEMINI_URL }}" \
+              -e GEMINI_KEY="${{ secrets.GEMINI_KEY }}" \
+              email-writer:latest
